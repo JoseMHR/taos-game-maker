@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Schemas — Taos Game Maker Documentation</title>
+  <meta name="description" content="Illustrative JSON data schema specifications for Taos Game Maker. Understand how enemies, quests, and dialogues are structured in pure human-readable data.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/taos-avatar.jpg">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <span>Taos Game Maker</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="getting-started.html" class="nav-link">Getting Started</a></li>
+        <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+        <li><a href="data-formats.html" class="nav-link active">Data Schemas</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ & Licensing</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="https://taosworld.itch.io/echoesoftruth" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Play Demo (Free)</a>
+        <a href="https://taosworld.gumroad.com/l/TaosGameMaker" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Buy Engine ($19.99)</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-layout">
+    <div class="container">
+      <article class="doc-article">
+        <div class="section-tag">Specifications</div>
+        <h1>JSON Data Schemas</h1>
+        <p style="font-size: 1.15rem;">
+          Taos Game Maker is powered by human-readable JSON formats. The schemas below illustrate representative structures used by the engine and the visual studio suite.
+        </p>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">ℹ️</div>
+          <div>
+            <strong>Illustrative Schemas:</strong> The examples below use mock dummy data to demonstrate schema conventions. Full, production-ready databases with hundreds of items, skills, and quests are included in the commercial release.
+          </div>
+        </div>
+
+        <!-- Schema 1: Enemy Definition -->
+        <h2>1. Enemy Combat Definition (enemies.json)</h2>
+        <p>Defines monster stats, elemental resistances, turn priority, AI routine, and loot table.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Illustrative Enemy Schema (Truncated Sample)</span>
+            <span class="code-lang">JSON</span>
+          </div>
+          <pre><code>{
+  "id": "shadow_stalker",
+  "name": { "en": "Shadow Stalker", "es": "Acechador Sombrío" },
+  "level": 14,
+  "stats": { "hp": 480, "mp": 120, "atk": 65, "def": 42, "spd": 28 },
+  "affinities": { "fire": 1.5, "dark": -0.5, "light": 2.0 },
+  "skills": ["slash_strike", "shadow_veil", "abyssal_drain"],
+  "ai_pattern": "tactical_assassin",
+  "drops": [{ "item": "shadow_essence", "rate": 0.4 }]
+  ...
+}</code></pre>
+        </div>
+
+        <h3>Key Properties:</h3>
+        <ul>
+          <li><code>id</code>: Unique internal string identifier referenced across encounters and quest objectives.</li>
+          <li><code>name</code>: Multi-language localized dictionary supporting instant runtime language toggling.</li>
+          <li><code>stats</code>: Baseline numeric attributes driving the turn-based tactical combat formulas.</li>
+          <li><code>affinities</code>: Elemental multipliers (&gt;1.0 weak, &lt;0.0 absorbed, 0.0 immune).</li>
+          <li><code>ai_pattern</code>: Strategy key evaluated by the tactical turn decision tree.</li>
+        </ul>
+
+        <!-- Schema 2: Quest Definition -->
+        <h2>2. Quest Tracking Definition (quests.json)</h2>
+        <p>Manages multi-stage quest progression, objective completion tracking, and rewards.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Illustrative Quest Schema (Truncated Sample)</span>
+            <span class="code-lang">JSON</span>
+          </div>
+          <pre><code>{
+  "id": "quest_ancient_shrine",
+  "title": { "en": "Secrets of the Shrine", "es": "Secretos del Santuario" },
+  "category": "main",
+  "recommended_level": 12,
+  "steps": [
+    { "id": "s1", "desc": "Explore the Sunken Vault", "target": "poi_vault_entrance" },
+    { "id": "s2", "desc": "Defeat the Temple Sentinel", "target": "temple_sentinel", "count": 1 }
+  ],
+  "rewards": { "xp": 1200, "gold": 350, "items": ["relic_sun_stone"] }
+  ...
+}</code></pre>
+        </div>
+
+        <h3>Key Properties:</h3>
+        <ul>
+          <li><code>steps</code>: Ordered array of quest milestones with visual journal progress indicators.</li>
+          <li><code>target</code>: Entity ID (POI, enemy, or item) linked to automatic condition checks.</li>
+          <li><code>rewards</code>: Granted automatically upon quest completion via the rewards subsystem.</li>
+        </ul>
+
+        <!-- Schema 3: Branching Dialogue Node -->
+        <h2>3. Branching Dialogue Node (npcs/*.json)</h2>
+        <p>Powers the Visual Novel dialogue tree with speaker portraits, expressions, and player choice branches.</p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Illustrative Dialogue Node (Truncated Sample)</span>
+            <span class="code-lang">JSON</span>
+          </div>
+          <pre><code>{
+  "node_id": "keeper_greeting",
+  "speaker": "temple_keeper",
+  "portrait": "keeper_mystic.png",
+  "text": {
+    "en": "The fractured barrier will not hold much longer, traveler.",
+    "es": "La barrera fracturada no resistirá mucho más, viajero."
+  },
+  "condition": "gflag(\"met_elder\") and not gflag(\"barrier_cleared\")",
+  "choices": [
+    { "text": "I am ready to enter the dungeon.", "next": "enter_trial" },
+    { "text": "Tell me more about the ancient sphere.", "next": "lore_inquiry" }
+  ]
+  ...
+}</code></pre>
+        </div>
+
+        <!-- High Level Action Pseudocode -->
+        <h2>High-Level Trigger Evaluation</h2>
+        <p>
+          Dialogue nodes and quest triggers utilize a simple, secure condition evaluation syntax:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>High-Level Condition Evaluation (Pseudocode)</span>
+            <span class="code-lang">Logic</span>
+          </div>
+          <pre><code>if GlobalState.has_flag("met_elder") and Party.level >= 10:
+    DialogueSystem.present_branch("enter_trial")
+else:
+    DialogueSystem.present_branch("fallback_warning")
+...</code></pre>
+        </div>
+
+        <!-- Visual Editor Note -->
+        <div class="callout callout-tip">
+          <div class="callout-icon">⚡</div>
+          <div>
+            <strong>You Don't Have to Write JSON by Hand:</strong> While all data files are plain JSON, the included <strong>Taos Game Maker Studio Suite</strong> provides 45+ visual node-based editors, dropdowns, and forms to build and modify all of these definitions visually with instant validation.
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div style="margin-top: 3rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <a href="architecture.html" class="btn btn-secondary">← Previous: System Architecture</a>
+          <a href="faq.html" class="btn btn-primary">Next: FAQ & Licensing →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-legal-notice">
+        <strong>Legal & License Notice:</strong> © 2026 Taos World. All rights reserved. The Taos Game Maker proprietary source code, Godot scripts, and internal editor tools are NOT included in this public documentation repository. The complete commercial engine, full project template, and studio suite are available for purchase exclusively on Gumroad and itch.io. Games created with a valid commercial license are 100% royalty-free.
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Taos World. Created by JoseMHR.</div>
+        <div><a href="mailto:taos@sagaesferas.com">taos@sagaesferas.com</a></div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

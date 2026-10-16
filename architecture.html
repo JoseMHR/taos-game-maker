@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture — Taos Game Maker Documentation</title>
+  <meta name="description" content="Technical architecture overview of Taos Game Maker. Discover the 3-tier data-driven architecture connecting JSON databases, the local web studio, and Godot 4.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/taos-avatar.jpg">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <span>Taos Game Maker</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="getting-started.html" class="nav-link">Getting Started</a></li>
+        <li><a href="architecture.html" class="nav-link active">Architecture</a></li>
+        <li><a href="data-formats.html" class="nav-link">Data Schemas</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ & Licensing</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="https://taosworld.itch.io/echoesoftruth" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Play Demo (Free)</a>
+        <a href="https://taosworld.gumroad.com/l/TaosGameMaker" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Buy Engine ($19.99)</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-layout">
+    <div class="container">
+      <article class="doc-article">
+        <div class="section-tag">System Design</div>
+        <h1>Taos Game Maker Architecture</h1>
+        <p style="font-size: 1.15rem;">
+          Taos Game Maker is engineered around a clean, decoupled three-tier architecture. It bridges human-readable JSON schemas, a visual web-based studio suite, and a high-performance Godot 4 client engine.
+        </p>
+
+        <!-- High Level Diagram -->
+        <h2>The 3-Tier Data Pipeline</h2>
+        <div class="code-block">
+          <div class="code-header">
+            <span>Architectural Flow Diagram</span>
+            <span class="code-lang">Overview</span>
+          </div>
+          <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    TIER 1: DATA LAYER                       │
+│    data/*.json (Enemies, Skills, Dungeons, Quests, World)   │
+└──────────────────────────────▲──────────────────────────────┘
+                               │ JSON Read/Write
+            ┌──────────────────┴──────────────────┐
+            ▼                                     ▼
+┌─────────────────────────┐           ┌───────────────────────┐
+│ TIER 2: NO-CODE STUDIO  │           │ TIER 3: GODOT 4 ENGINE│
+│  - Python local server  │           │  - Autoload Managers  │
+│  - 45+ Web Visual Tools │           │  - View Subsystems    │
+│  - Instant File Sync    │           │  - Multiplatform Run  │
+└─────────────────────────┘           └───────────────────────┘</code></pre>
+        </div>
+
+        <!-- Tier 1 -->
+        <h2>Tier 1: Pure Data-Driven Core</h2>
+        <p>
+          Unlike monolithic game projects where game balance, dialogues, and coordinates are hardcoded into engine scripts, Taos Game Maker stores 100% of game definitions in isolated JSON files:
+        </p>
+        <ul>
+          <li><code>data/world.json</code>: Overworld grid coordinates, terrain codes, weather, and object placement.</li>
+          <li><code>data/dungeons/</code>: Grid layouts, modular wall orientations, doors, chests, and boss spawn triggers.</li>
+          <li><code>data/enemies.json</code>: Combat stats, elemental resistances, turn speeds, drops, and AI ability pools.</li>
+          <li><code>data/skills.json</code>: Target scopes, MP/AP costs, status affliction chances, and visual FX keys.</li>
+          <li><code>data/npcs/</code>: Branching dialogue trees, speaker portraits, choices, and condition evaluations.</li>
+          <li><code>data/quests.json</code>: Objectives, step tracking, journal entries, and reward allocations.</li>
+        </ul>
+
+        <!-- Tier 2 -->
+        <h2>Tier 2: The Local Web Studio Layer</h2>
+        <p>
+          The studio suite is hosted locally on your machine via a lightweight Python server (<code>editor/serve.py</code>). It exposes a rich, responsive interface with over 45 dedicated managers:
+        </p>
+        <div class="grid grid-2" style="margin: 1.5rem 0;">
+          <div class="card">
+            <h3 class="card-title">World & Dungeon Suite</h3>
+            <p class="card-text">
+              Real-time map painting, terrain brush, entity placement, dungeon modular piece architect, and interactive 3D walkthrough simulator.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Narrative & Quest Suite</h3>
+            <p class="card-text">
+              Node-based visual dialogue graph editor, VN asset previewer, NPC presence managers, and branching quest wizards.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Combat & Systems Suite</h3>
+            <p class="card-text">
+              Turn-based sandbox simulator, skill synergy balancer, profession progression trees, and world transform event managers.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Validation & QA Suite</h3>
+            <p class="card-text">
+              Automated data integrity validator that scans for broken IDs, missing assets, circular quest triggers, and orphan nodes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tier 3 -->
+        <h2>Tier 3: Godot 4 Client Runtime Engine</h2>
+        <p>
+          The Godot 4 project is structured around modular Autoload singletons and isolated View controllers:
+        </p>
+
+        <h3>Core Engine Autoloads</h3>
+        <ul>
+          <li><strong>Design Manager:</strong> Loads and caches JSON databases, provides unified accessor APIs, and hot-reloads data during development.</li>
+          <li><strong>GlobalState:</strong> Manages runtime session data, party members, inventory, quest progress, story flags, and persistence.</li>
+          <li><strong>SoundManager:</strong> Handles adaptive background music (BGM), environmental ambience, and spatial sound effects (SFX).</li>
+          <li><strong>Juice:</strong> Centralized juice system delivering screen shake, chromatic aberration flashes, floating combat text, and haptic feedback.</li>
+          <li><strong>Localization (i18n):</strong> High-performance multi-language lookup supporting dynamic runtime language swapping.</li>
+        </ul>
+
+        <h3>Engine View Subsystems</h3>
+        <p>
+          The gameplay transitions smoothly between specialized view controllers based on context:
+        </p>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>View Controller</th>
+                <th>Gameplay Mode</th>
+                <th>Key Features</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ViewWorld</strong></td>
+                <td>3D Overworld Exploration</td>
+                <td>Grid movement, biomes, dynamic camera, weather effects, POI triggers, transport vehicles.</td>
+              </tr>
+              <tr>
+                <td><strong>ViewDungeon</strong></td>
+                <td>1st-Person Dungeon Crawler</td>
+                <td>90° discrete grid turning, wall mesh instancing, torch lighting, chests, door locks.</td>
+              </tr>
+              <tr>
+                <td><strong>ViewCombat</strong></td>
+                <td>Turn-Based Tactical Battle</td>
+                <td>Timeline queue, active skill selection, status animations, floating combat numbers, enemy AI.</td>
+              </tr>
+              <tr>
+                <td><strong>ViewDialogue / ViewPlace</strong></td>
+                <td>Visual Novel & City Exploration</td>
+                <td>Character portraits, branching choices, city markets, craft workshops, quest journals.</td>
+              </tr>
+              <tr>
+                <td><strong>ViewGather & ViewTransport</strong></td>
+                <td>Resource Gathering & Trade</td>
+                <td>Farming nodes, resource processing, caravan transport routes, inventory management.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Security & Customization -->
+        <h2>Extensibility & Modding</h2>
+        <p>
+          Because the engine is 100% decoupled from the data, you can create entirely new campaigns, standalone games, or mod expansions simply by swapping or editing the <code>data/</code> folder.
+        </p>
+
+        <!-- Navigation Buttons -->
+        <div style="margin-top: 3rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <a href="getting-started.html" class="btn btn-secondary">← Previous: Getting Started</a>
+          <a href="data-formats.html" class="btn btn-primary">Next: Data Schemas →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-legal-notice">
+        <strong>Legal & License Notice:</strong> © 2026 Taos World. All rights reserved. The Taos Game Maker proprietary source code, Godot scripts, and internal editor tools are NOT included in this public documentation repository. The complete commercial engine, full project template, and studio suite are available for purchase exclusively on Gumroad and itch.io. Games created with a valid commercial license are 100% royalty-free.
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Taos World. Created by JoseMHR.</div>
+        <div><a href="mailto:taos@sagaesferas.com">taos@sagaesferas.com</a></div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

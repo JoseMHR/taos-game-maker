@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Taos Game Maker Documentation</title>
+  <meta name="description" content="Quickstart guide for Taos Game Maker. Learn prerequisites, 3-step setup, and how to launch the local web studio suite with Godot 4.3+.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/jpeg" href="assets/img/taos-avatar.jpg">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <span>Taos Game Maker</span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Overview</a></li>
+        <li><a href="getting-started.html" class="nav-link active">Getting Started</a></li>
+        <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+        <li><a href="data-formats.html" class="nav-link">Data Schemas</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ & Licensing</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="https://taosworld.itch.io/echoesoftruth" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">Play Demo (Free)</a>
+        <a href="https://taosworld.gumroad.com/l/TaosGameMaker" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Buy Engine ($19.99)</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc-layout">
+    <div class="container">
+      <article class="doc-article">
+        <div class="section-tag">Quickstart Guide</div>
+        <h1>Getting Started with Taos Game Maker</h1>
+        <p style="font-size: 1.15rem;">
+          Get your first tactical RPG project running in less than five minutes. Taos Game Maker comes pre-configured with a complete Godot 4 project and an instant local web studio.
+        </p>
+
+        <!-- Requirements Box -->
+        <h2>System Requirements</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Requirement</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Godot Engine</strong></td>
+                <td>Version 4.3 or newer</td>
+                <td>Standard official build (No .NET/C# build required; 100% pure GDScript & Compatibility/Forward+ renderer).</td>
+              </tr>
+              <tr>
+                <td><strong>Python</strong></td>
+                <td>Version 3.8+</td>
+                <td>Used strictly by the local web studio server (`editor/serve.py`). Uses only built-in standard libraries (<strong>zero pip dependencies</strong>).</td>
+              </tr>
+              <tr>
+                <td><strong>Web Browser</strong></td>
+                <td>Any modern browser</td>
+                <td>Chrome, Firefox, Safari, Edge, or Brave for accessing the local visual editing suite at `localhost:8000`.</td>
+              </tr>
+              <tr>
+                <td><strong>Operating System</strong></td>
+                <td>Windows, Linux, or macOS</td>
+                <td>Fully cross-platform development environment and export capabilities.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-icon">💡</div>
+          <div>
+            <strong>Zero Configuration Hassle:</strong> You do NOT need to install node.js, npm, docker, or external databases. The entire editing suite runs locally out of the box with standard Python and Godot.
+          </div>
+        </div>
+
+        <!-- 3 Simple Steps -->
+        <h2>The 3-Step Setup Workflow</h2>
+        <p>Once you acquire Taos Game Maker from Gumroad or itch.io, setting up the project takes three straightforward actions:</p>
+
+        <div class="steps-pipeline" style="margin: 2rem 0;">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Extract the Package</h3>
+            <p>Download `Taos_Game_Maker_vX.X.zip` and extract the contents to your preferred game development folder on disk.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Open in Godot 4</h3>
+            <p>Launch Godot 4.3+, click <strong>Import</strong>, browse to the extracted directory, select <code>project.godot</code>, and open the project.</p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Launch Web Studio</h3>
+            <p>Double-click <code>start_editor.bat</code> (Windows) or execute <code>./start_editor.sh</code> (Linux/Mac) to launch the visual suite.</p>
+          </div>
+        </div>
+
+        <!-- Launching Studio -->
+        <h2>Launching the No-Code Web Studio</h2>
+        <p>
+          The visual suite runs a lightweight local server that hosts the 45+ visual editing tools in your web browser.
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <span>Terminal Command (Linux / macOS / Windows)</span>
+            <span class="code-lang">CLI</span>
+          </div>
+          <pre><code># On Windows: Double-click start_editor.bat
+# Or run from terminal:
+python editor/serve.py
+
+# Output:
+# [Taos Game Maker] Server started at http://localhost:8000/
+# Press Ctrl+C to stop.</code></pre>
+        </div>
+
+        <p>
+          Your default web browser will automatically open to <code>http://localhost:8000</code>, presenting the complete Taos Game Maker design workspace.
+        </p>
+
+        <!-- Exploring Studio Tools -->
+        <h2>First Steps in the Studio</h2>
+        <p>The studio workspace is categorized into intuitive design suites:</p>
+        <ul>
+          <li><strong>Overworld Map Designer:</strong> Place terrain tiles, interactive POIs, monsters, dynamic weather triggers, and chest locations visually.</li>
+          <li><strong>3D Dungeon Architect:</strong> Assemble grid dungeon floors, place doors, torch fixtures, traps, and boss arenas in a 2D/3D hybrid viewport.</li>
+          <li><strong>Tactical Combat Sandbox:</strong> Test enemy encounters, test turn order math, and balance skill synergies without launching Godot.</li>
+          <li><strong>Visual Novel & NPC Graph:</strong> Connect dialogue branches with node graphs, configure facial portraits, and trigger quest conditions.</li>
+          <li><strong>Database Managers:</strong> Dedicated visual managers for items, abilities, professions, achievements, world transforms, and music tracks.</li>
+        </ul>
+
+        <!-- Live Testing in Godot -->
+        <h2>Testing Your Game in Godot</h2>
+        <p>
+          To test changes in real time, simply click the <strong>«Test in Godot»</strong> button in the Web Studio toolbar, or press <strong>F5</strong> inside the Godot editor.
+        </p>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">ℹ️</div>
+          <div>
+            <strong>Instant Synchronization:</strong> Whenever you save changes in the web editor, the modified JSON databases are updated on disk. Godot's autoload data managers load these definitions directly upon startup.
+          </div>
+        </div>
+
+        <!-- Next Links -->
+        <div style="margin-top: 3rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <a href="index.html" class="btn btn-secondary">← Back to Overview</a>
+          <a href="architecture.html" class="btn btn-primary">Next: System Architecture →</a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-legal-notice">
+        <strong>Legal & License Notice:</strong> © 2026 Taos World. All rights reserved. The Taos Game Maker proprietary source code, Godot scripts, and internal editor tools are NOT included in this public documentation repository. The complete commercial engine, full project template, and studio suite are available for purchase exclusively on Gumroad and itch.io. Games created with a valid commercial license are 100% royalty-free.
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 Taos World. Created by JoseMHR.</div>
+        <div><a href="mailto:taos@sagaesferas.com">taos@sagaesferas.com</a></div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
