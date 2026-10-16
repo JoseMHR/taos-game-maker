@@ -65,8 +65,7 @@ The best way to judge a framework is to play a game made with it. **Echoes of Tr
 | 🛒 Buy the framework — itch.io | https://taosworld.itch.io/taosgamemaker |
 | 🎮 Free demo — Echoes of Truth | https://taosworld.itch.io/echoesoftruth |
 | 🎬 Engine video tour (YouTube) | https://youtu.be/9ugIta7vTkQ |
-| 🌐 Official universe website | https://www.sagaesferas.com/ (ES) · https://en.sagaesferas.com/ (EN) |
-| ✉️ Contact & support | [taos@sagaesferas.com](mailto:taos@sagaesferas.com) |
+| 🌐 Official universe website | https://sites.google.com/view/the-lazarus-saga/ |
 
 ## ✅ Is it for you?
 
@@ -132,8 +131,7 @@ All content in this repository (text, images, documentation) is provided for inf
 | 🛒 Comprar el framework — itch.io | https://taosworld.itch.io/taosgamemaker |
 | 🎮 Demo gratuita — Echoes of Truth | https://taosworld.itch.io/echoesoftruth |
 | 🎬 Vídeo demo del motor | https://youtu.be/9ugIta7vTkQ |
-| 🌐 Web oficial del universo | https://www.sagaesferas.com/ |
-| ✉️ Contacto y soporte | [taos@sagaesferas.com](mailto:taos@sagaesferas.com) |
+| 🌐 Web oficial del universo | https://sites.google.com/view/sagalazaro |
 
 **¿Es para ti?** ✔️ Sí, si quieres crear JRPGs en Godot sin partir de cero, sabes editar un JSON (o quieres evitar el código) y piensas vender tu juego quedándote el 100% de los ingresos. ✖️ No, si esperas un motor independiente que funcione sin abrir Godot, assets AAA o redistribuir el framework. Detalles completos en la [FAQ y licencia](https://josemhr.github.io/taos-game-maker/faq.html).
 
